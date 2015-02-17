@@ -4,20 +4,11 @@ features <- readLines("features.txt")
 features <- sub("[0-9]+ ","",features) ## remove feature numbers
 
 ## Load test data
-setwd("./UCI HAR Dataset/test")
+setwd("./test")
 ## activities: 1 WALKING, 2 WALKING_UPSTAIRS, 3 WALKING_DOWNSTAIRS, 4 SITTING, 5 STANDING, 6 LAYING
 activities <- readLines("y_test.txt")
 subjects <- readLines("subject_test.txt")
 data <- read.table("X_test.txt", col.names=features)
-
-## Don't run this yet
-## replace activities with activity names
-## activities <- sub("1","Walking",activities)
-##activities <- sub("2","WalkUpStairs",activities)
-##activities <- sub("3","WalkDownStairs",activities)
-#activities <- sub("4","Sitting",activities)
-#activities <- sub("5","Standing",activities)
-#activities <- sub("6","Lying",activities)
 
 ## add activities and subjects to beginning of test data frame
 library(dplyr)
@@ -32,14 +23,6 @@ setwd("../train")
 activities2 <- readLines("y_train.txt")
 subjects2 <- readLines("subject_train.txt")
 data2 <- read.table("X_train.txt", col.names=features)
-
-## replace activities with activity names
-#activities2 <- sub("1","Walking",activities2)
-#activities2 <- sub("2","WalkUpStairs",activities2)
-#activities2 <- sub("3","WalkDownStairs",activities2)
-#activities2 <- sub("4","Sitting",activities2)
-#activities2 <- sub("5","Standing",activities2)
-#activities2 <- sub("6","Lying",activities2)
 
 ## add activities and subjects to beginning of training data frame
 library(dplyr)
@@ -90,7 +73,6 @@ allsubjects <- split(allmeans,allmeans$subject)
 for (i in 1:length(allsubjects)) {
   allsubjects[[i]] <- split(allsubjects[[i]],allsubjects[[i]]$activity)
 }
-length(unique(allmeans$activity)) * length(unique(allmeans$subject)) ## number of combos
 
 ## Take averages for each item in allsubjects
 averagelist <- vector("list",30)
